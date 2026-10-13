@@ -42,8 +42,8 @@ const createBook = async (req, res) => {
             availableCopies: availableCopies !== undefined ? availableCopies : totalCopies
         };
 
-        const book = await Book.create({ message: "Book created successfully", data: bookData });
-        res.status(201).json(book);
+        const book = await Book.create(bookData);
+        res.status(201).json({ message: "Book created successfully", data: book });
     } catch (error) {
         if (error.code === 11000) {
             return res.status(400).json({ message: "ISBN already exists" });

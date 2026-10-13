@@ -23,8 +23,8 @@ const getAllLoans = async (req, res) => {
 const getLoanById = async (req, res) => {
     try {
         const loan = await Loan.findById(req.params.id)
-            .populate('member_id')
-            .populate('items.book_id');
+            .populate({ path: 'member_id', select: "_id" })
+            .populate({ path: 'items.book_id', select: "_id" });
         if (!loan) {
             return res.status(404).json({ message: "Loan not found" });
         }
@@ -85,8 +85,8 @@ const getLoansByMemberId = async (req, res) => {
     try {
         const { memberId } = req.params;
         const loans = await Loan.find({ member_id: memberId })
-            .populate('member_id')
-            .populate('items.book_id');
+            .populate({ path: 'member_id', select: "_id" })
+            .populate({ path: 'items.book_id', select: "_id" });
         res.status(200).json(loans);
     } catch (error) {
         if (error.name === 'CastError') {
